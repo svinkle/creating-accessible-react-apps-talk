@@ -1,0 +1,706 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Creating Accessible React Apps</title>
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/a11y-react.css">
+  <link rel="icon" sizes="120x120" href="images/mobile-phone.png">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="plugin/prism/prism.css">
+
+  <!-- Plugins -->
+  <link rel="stylesheet" href="plugin/accessibility/helper.css">
+  <link rel="stylesheet" href="plugin/title-footer/title-footer.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-state="no-title-footer">
+        <h1 class="logo logo-font">Creating Accessible React Apps</h1>
+        <div class="intro-slide">
+          <!-- <img src="images/face.jpg" alt="" class="face"> -->
+          <ul class="list-of-links-without-an-underline-cause-i-feel-like-it">
+            <li>
+              <a href="https://svinkle.me">Scott Vinkle</a> • <a href="https://twitter.com/svinkle">@svinkle</a>
+            </li>
+            <li>
+              <a href="https://shopify.com">
+                <img src="images/shopify_logo_darkbg.svg" role="img" alt="Shopify" class="employer-logo">
+              </a>
+            </li>
+          </ul>
+        </div>
+        <aside class="notes">
+          <p>Hello everyone. I'm Scott Vinkle; a senior front end developer and accessibility advocate at Shopify. You can find me on Twitter, GitHub, and pretty much anything at "svinkle."</p>
+          <p>Today I'm going to help answer the question…</p>
+          <span role="img" aria-label="">👉</span>
+        </aside>
+      </section>
+      <section>
+        <section>
+          <h2>Can React apps be accessible? <span role="img" aria-label="">🤔</span></h2>
+          <aside class="notes">
+            <p><strong>Can React apps be accessible?</strong></p>
+            <p>It seems like there's quite a bit of reserve or hesitation when considering building an app with something like React or Angular.</p>
+            <p>Often times folks may feel like these types of apps are difficult or perhaps impossible to be made accessible by their very nature of them relying so heavily on JavaScript.</p>
+            <p>Well, to answer this question…</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Yes! <span role="img" aria-label="">😄🙌🚀🍕</span></h3>
+          <p>(Continue on to find out how.)</p>
+          <aside class="notes">
+            <p>Yes, React apps can be made to be accessible for people with disabilities.</p>
+            <p>So today I'm here to share some tips that I found to help with this.</p>
+            <span role="img" aria-label="">👉</span>
+          </aside>
+        </section>
+      </section>
+      <section>
+        <h2>Agenda <span role="img" aria-label="">✅</span></h2>
+        <ol>
+          <li>A few notes on starting with React</li>
+          <li>Setting the page <code>&lt;title&gt;</code></li>
+          <li>Live announcements</li>
+          <li>Focus management</li>
+          <li>React's accessibility linter</li>
+          <li>Writing semantic HTML in React</li>
+          <li>Demo! (time permitting)</li>
+        </ol>
+        <aside class="notes">
+          <p>So, for today's agenda…</p>
+          <ol>
+            <li>I'll start with a few, high-level notes when first getting started with creating apps with React</li>
+            <li>We'll look at how to set the page title</li>
+            <li>We'll review a live announcements component in order to create a live region</li>
+            <li>We'll explore how to manage keyboard focus between components and when loading new pages</li>
+            <li>We'll take a brief look at React's accessibility linter which comes with each new app</li>
+            <li>I'll share some thoughts on writing semantic HTML within React components</li>
+            <li>And, time permitting, I'll go through a demo app to illustrate each point</li>
+          </ol>
+          <span role="img" aria-label="">👉</span>
+        </aside>
+      </section>
+      <section>
+        <section>
+          <h2>A few notes on starting with React <span role="img" aria-label="">📓</span></h2>
+          <aside class="notes">
+            <p>A few things to watch for when first starting to develop with React.</p>
+            <p>These took me by surprise and I had to get use to writing this way, but it wasn't too long before I got used to it.</p>
+            <p>And if you do make a mistake and write something incorrectly, you'll get a friendly warning in your browser dev tools console.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>camelCase</h3>
+          <p>Write attributes in camelCase <span role="img" aria-label="">🐪</span></p>
+          <ul>
+            <li><code>tabindex</code> <span role="img" aria-label="needs to be written as">👉</span> <code>tabIndex</code></li>
+            <li><code>contenteditable</code> <span role="img" aria-label="needs to be written as">👉</span> <code>contentEditable</code></li>
+            <li><code>maxlength</code> <span role="img" aria-label="needs to be written as">👉</span> <code>maxLength</code></li>
+          </ul>
+          <p>(<code>aria-*</code> and <code>data-*</code> are exempt from this.)</p>
+          <aside class="notes">
+            <p>When it comes to writing HTML attributes in React components, they need to be written in camelCase style.</p>
+            <p>This means that when an attribute name is made up of two words, the second word in the attribute must start with a capital letter.</p>
+            <p>So for example…</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Reserved words</h3>
+          <p>When HTML conflicts with JS <span role="img" aria-label="">😕</span></p>
+          <ul>
+            <li><code>for</code> <span role="img" aria-label="needs to be written as">👉</span> <code>htmlFor</code></li>
+            <li><code>class</code> <span role="img" aria-label="needs to be written as">👉</span> <code>className</code></li>
+          </ul>
+          <aside class="notes">
+            <p>There are a few reserved word conflicts when writing HTML attributes in React components.</p>
+            <p>For example…</p>
+            <ol>
+              <li>The reserved word "for" is used in HTML when pairing a "label" with an "input" element. In JavaScript, "for" is used to loop through items using an index. So the "for" attribute needs to be written out as, "htmlFor."</li>
+              <li>Another example, the reserved word "class" is used in HTML to attach CSS selectors to apply visual styles to elements. In JavaScript, it's used to create a class declaration. So when adding a class to an element, this needs to be written as, "className."</li>
+            </ol>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Self closing tags require <code aria-label="a closing slash">/</code></h3>
+          <p>What is this, XHTML? <span role="img" aria-label="">🤷‍</span></p>
+          <ul>
+            <li><code class="language-markup">&lt;img src="…" alt=""&gt;</code> <span role="img" aria-label="needs to be written as">👉</span> <code class="language-markup">&lt;img src="…" alt="" /&gt;</code></li>
+            <li><code class="language-markup">&lt;meta charset="utf-8"&gt;</code> <span role="img" aria-label="needs to be written as">👉</span> <code class="language-markup">&lt;meta charset="utf-8" /&gt;</code></li>
+            <li><code class="language-markup">&lt;input type="text"&gt;</code> <span role="img" aria-label="needs to be written as">👉</span> <code class="language-markup">&lt;input type="text" /&gt;</code></li>
+          </ul>
+          <aside class="notes">
+            <p>In HTML5 there are a few elements which do not feature a closing tag.</p>
+            <p>Just like back in the old XHTML days, JSX (which is a sub-set of JavaScript used to write React components) requires self closing elements to have the forward slash.</p>
+            <p>For example…</p>
+            <span role="img" aria-label="">👉</span>
+          </aside>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Setting the page <code>&lt;title&gt;</code> <span role="img" aria-label="">🗂</span></h2>
+          <aside class="notes">
+            <p>Now, let's take a look at how to set the page "title."</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Why bother? <span role="img" aria-label="">🤔</span></h3>
+          <ul>
+            <li>Updates the browser tab</li>
+            <li>SEO</li>
+            <li>Often the first content announced by screen readers</li>
+          </ul>
+          <aside class="notes">
+            <p>So, why bother with setting the page "title" content?</p>
+            <p>Well, a few reasons:</p>
+            <ol>
+              <li>It updates the content in the browser tab, so sighted users have a better understanding of where they are< in the app/li>
+              <li>It helps to increase page Search Engine Optimization when search engines crawl and index your site</li>
+              <li>And the page "title" content is often the first bit of information announced by screen readers, so users of assistive technology will have a better understanding of where they're currently at in the app as well</li>
+            </ol>
+            <p>So, how do we do this in React?</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Use <code>document.title</code></h3>
+          <pre>
+            <code class="language-jsx">
+              componentDidMount() {
+                document.title = 'My page title';
+              }
+            </code>
+          </pre>
+          <ul>
+            <li>Not specific to React</li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/title">More on MDN</a></li>
+          </ul>
+          <aside class="notes">
+            <p>The simplest method that I found is to set the "title" using the JavaScript "document.title" property.</p>
+            <p>On the screen here is a function called "component did mount." This is a React lifecycle method. The code within this function executes when the compomnent is loaded onto the screen.</p>
+            <p>The single line in this function is using the "document.title" property to set a string value of, "My page title" as the title. So when this components loads, the page "title" will be set to this value.</p>
+            <p>This is not specific or unique to React; this method can be used in any JavaScript based application or site.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Other existing components</h3>
+          <ul>
+            <li>
+              <a href="https://npmjs.com/package/react-document-title">react-document-title</a>
+              <pre>
+                <code class="language-jsx">
+                  &lt;DocumentTitle title='My page title'&gt;
+                    &lt;!-- content --&gt;
+                  &lt;/DocumentTitle&gt;
+                </code>
+              </pre>
+            </li>
+            <li>
+              <a href="https://npmjs.com/package/react-helmet">react-helmet</a>
+              <pre>
+                <code class="language-jsx">
+                  &lt;Helmet&gt;
+                    &lt;meta charSet='utf-8' /&gt;
+                    &lt;title&gt;My page title&lt;/title&gt;
+                    &lt;link rel='stylesheet' href='css/page-specific.css' /&gt;
+                  &lt;/Helmet&gt;
+                </code>
+              </pre>
+            </li>
+          </ul>
+          <aside class="notes">
+            <p>So I felt like it would be worth mentioning that there are other, pre-existing components that other developers have made. These components can be included in your project via "npm."</p>
+            <p>For example…</p>
+            <span role="img" aria-label="">👉</span>
+          </aside>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Live announcements <span role="img" aria-label="">📢</span></h2>
+          <aside class="notes">
+            <p>Now let's take a look at a complete, live announcements component.</p>
+            <p>Sometimes when you're working with a single page app, you request data from an external data source.</p>
+            <p>For people who rely on assistive technology it's a good idea to announce if the data request was successful, if there were any errors, or if successful for example, how many items are now on displayed the screen as a result.</p>
+            <p>Let's take a look at how to create a live announcement component.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>The <code>Announcements</code> component</h3>
+          <pre>
+            <code class="language-jsx">
+                import React from 'react';
+
+                class Announcements extends React.Component {
+                  render() {
+                    return (
+                      &lt;div aria-live="polite" aria-atomic="true" className="visuallyhidden"&gt;
+                        {this.props.message}
+                      &lt;/div&gt;
+                    );
+                  }
+                }
+
+                export default Announcements;
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>Here we have the "announcements" component in its entirety.</p>
+            <p>(Explain what's on the sreen…)</p>
+            <p>Now that we have the component writen and available, how do we use it?</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Usage, part 1</h3>
+          <p>Create a <code>state</code> property</p>
+          <pre>
+            <code class="language-jsx">
+              this.state = {
+                message: null
+              };
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>So, how do we use this component?</p>
+            <p>To start, in the parent component which will use the "announcements" component, we'll create a new "state" property.</p>
+            <p>We'll call this property, "message," and set its value to "null" for now.</p>
+            <p>So, on the screen there's a "this.state" object declaration, and inside the object is a property called, "message" with its default value set to "null."</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Usage, part 2</h3>
+          <p>Set the <code>state</code> property</p>
+          <pre>
+            <code class="language-jsx">
+              this.setState({
+                message: 'Some message'
+              });
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>Next, at the point in your app when you recieve your data, either successfully or if things didn't work out as expected, we'll set the state of the "message" property.</p>
+            <p>To do so, you call the "this.setState" function and pass in an object parameter.</p>
+            <p>This object will feature the "message" property we created earlier, with its value set to the string of text we want to announce.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Usage, part 3</h3>
+          <p>Send message to <code>&lt;Announcements /&gt;</code> component</p>
+          <pre>
+            <code class="language-jsx">
+              &lt;Announcements message={this.state.message} /&gt;
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>Lastly, we'll include the "announcements" component within the parent component.</p>
+            <p>In order to send it the message text from state to to the "announcements" component, we use a prop.</p>
+            <p>The prop on the screen here is called, "message" with its value being set to whatever's currently in the "message" state property.</p>
+            <p>So when this component loads, the message will be announced by a screen reader and the person using the app will be infomred of the current state.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Other existing components</h3>
+          <ul>
+            <li>
+              <a href="https://npmjs.com/package/react-aria-live">react-aria-live</a>
+              <pre>
+                <code class="language-jsx">
+                    &lt;LiveAnnouncer&gt;
+                      &lt;LiveMessage message={this.state.a11yMessage} aria-live="polite" /&gt;
+                      &lt;button onClick={() =&gt; {this.setState({ a11yMessage: 'Button Pressed' });}}&gt;
+                        Press me
+                      &lt;/button&gt;
+                    &lt;/LiveAnnouncer&gt;
+                </code>
+              </pre>
+            </li>
+            <li>
+              <a href="https://npmjs.com/package/react-a11y-announcer">react-a11y-announcer</a>
+              <br/>(Literally the same thing I described earlier)
+            </li>
+          </ul>
+          <aside class="notes">
+            <p>Like with setting the page title, there are other existing components for creating live regions.</p>
+            <p>For example…</p>
+            <span role="img" aria-label="">👉</span>
+          </aside>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Focus management <span role="img" aria-label="">🔀</span></h2>
+          <aside class="notes">
+            <p>Well planned focus management is critical in creating a successful and comfortable user experience, especially for highly dynamic apps.</p>
+            <p>What I mean by focus management is moving the keyboard cursor from one place to another in order to assist the person on the other side of the screen in moving along with the intended flow of the app.</p>
+            <p>Let's take a look at a couple examples.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Selecting an element</h3>
+          <p>Kind of like jQuery <span role="img" aria-label="">🤷‍♂️</span>.</p>
+          <pre>
+            <code class="language-js">
+              var loadingMessage = $('#loadingMessage');
+              // …
+              loadingMessage.focus();
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>First thing we need to do is select an element to send focus to. How do we do this in React?</p>
+            <p>Well, it can be helpful to think about how you might be used to selecting an element with something like jQuery.</p>
+            <p>On the screen is an example of the jQuery dollar selector, caching a reference to the "loading message" element in a variable.</p>
+            <p>Later on in that app, we can use the variable and call its "focus" method to set the keyboard cursor directly onto this element.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>The React way</h3>
+          <p>Use a function <code>ref</code> to reference the element elsewhere in the component.</p>
+          <pre>
+            <code class="language-jsx">
+              &lt;div
+                ref={
+                  (loadingMessage) => {
+                    this.loadingMessage = loadingMessage;
+                  }
+                }
+                tabIndex='-1'
+                &gt;
+                Loading…
+              &lt;/div&gt;
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>In React, tjhe concept's pretty much the same, but how we arrive there is a little different.</p>
+            <p>In order to select an element, "the react way," we create what's called a "function ref," or, "ref" for short.</p>
+            <p>The "ref" is a prop that is set on the element we want to reference later in the component.</p>
+            <p>(Explain what's on the screen…)</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Using the <code>ref</code>…</h3>
+          <pre>
+            <code class="language-jsx">
+              componentDidMount() {
+                this.loadingMessage.focus();
+              }
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>Then in order to use the "ref," we can use the "component did mount" function again, and then call the "focus" method on the "ref" element when then component loads.</p>
+            <p>When the component loads, the keyboard focus indicator will be automatically sent to this element.</p>
+            <span role="img" aria-label="">👉</span>
+          </aside>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>More focus management! <span role="img" aria-label="">📰</span></h2>
+          <aside class="notes">
+            <p>Another pretty important example of focus management is adjusting keybord focus when moving from page to page in React.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Why manage focus when loading a new page? <span role="img" aria-label="">🤔</span></h3>
+          <p>When using React Router's <code>&lt;Link /&gt;</code> component, the browser never reloads, leaving the user in an unknown position.</p>
+          <aside class="notes">
+            <p>So, why exactly do we need do this?</p>
+            <p>For one, when using React Router's "link" component to load new page views, the keyboard focus is lost or left in an unpredictable state.</p>
+            <p>The "link" component dynamically loads new pages into the DOM without reloading the browser. As a result, pages are precieved to load very quickly, but we also need to manage the keyboard focus when this happens.</p>
+            <p>How do we accomplish this task?</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Our new friend, <code>ref</code></h3>
+          <pre>
+            <code class="language-jsx">
+              &lt;div
+                ref={
+                  (contentContainer) =&gt; {
+                    this.contentContainer = contentContainer;
+                  }
+                }
+                tabIndex="-1"
+                aria-labelledby="pageHeading"
+                &gt;
+                  &lt;Header /&gt;
+                    &lt;h1 id="pageHeading"&gt;…&lt;/h1&gt;
+                    // Content components…
+                  &lt;Footer /&gt;
+              &lt;/div&gt;
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>Coming back to to the "ref" concept, we can create a "ref" on the container div and use that to shift focus to the page.</p>
+            <p>So, for this example there's a wrapper "div" container which holds all of the page content, including the header, footer, etc.</p>
+            <p>When a new page view loads, focus is sent to the top of the page. From there, the user can move forward from this point, discovering content in the same manner as if a full page reload took place.</p>
+            <p>(Explain what's on the screen…)</p>
+            <p>So, how do we use the "ref?"</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Set "page" focus via <code>ref</code></h3>
+          <pre>
+            <code class="language-jsx">
+              componentDidMount() {
+                this.contentContainer.focus();
+              }
+            </code>
+          </pre>
+          <aside class="notes">
+            <aside class="notes">
+              <p>Again, to use the "ref," we can use the "component did mount" function, and then call the "focus" method on the "ref" element when then component loads.</p>
+              <p>When the component loads, the keyboard focus indicator will be sent to the "page container" element.</p>
+              <p>From this point, the user can move on and continue with content discovery.</p>
+              <span role="img" aria-label="">👉</span>
+            </aside>
+          </aside>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>React's accessibility linter <span role="img" aria-label="">🛀</span></h2>
+          <aside class="notes">
+            <p>React has a really great accessibility linter which is pre-packaged with each app.</p>
+            <p>As a general note, a code linter is a super handy tool which helps to ensure clean code, or code standards as determined by the team or individual. In other words, they let you know when something's not quite right.</p>
+            <p>Let's look at a few ways we can use the linter to help ensure a more accessible React app.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3><code>eslint-plugin-jsx-a11y</code></h3>
+          <p>Outputs errors to the browser console automatically.</p>
+          <pre>
+            <code class="language-jsx">
+              &lt;img src="images/chrome-console.png" /&gt;
+            </code>
+          </pre>
+          <img src="images/chrome-console.png" alt="Screen capture of Chrome's developer tools console. A warning message states, 'img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.'">
+          <aside class="notes">
+            <p>The linter in question is called "eslint-plugin-jsx-a11y" and it comes with each app created with the "create-react-app" utility.</p>
+            <p>By default, without any setup or confiuguration on your part, the linter outputs errors found to the browser dev tools console.</p>
+            <p>(Describe what's on the screen…)</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Code editor a11y linting? <span role="img" aria-label="">🤔</span></h3>
+          <p>Let's output errors directly in the editor, too.</p>
+          <img src="images/atom-editor.png" alt="Screen capture of Atom text editor. A warning message appears overtop of some code with the following message, 'img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.'"
+            class="atom-editor">
+          <aside class="notes">
+            <p>Outputting errors to the console is pretty neat, but I think this would be even more useful if these errors were displayed in my editor. Let's see how we can set this up.</p>
+            <p>(Describe what's on the screen…)</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h4>1. Install ESLint Plugin</h4>
+          <ul>
+            <li>Atom: <a href="https://atom.io/packages/linter-eslint">linter-eslint</a></li>
+            <li>Sublime Text: <a href="https://packagecontrol.io/packages/SublimeLinter-contrib-eslint">SublimeLinter-contrib-eslint</a></li>
+            <li>VS Code: <a href="https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebAnalyzer">WebAnalyzer</a></li>
+          </ul>
+          <aside class="notes">
+            <p>First install the ESLint plugin for your editor. This is usually done within the editor itself.</p>
+            <p>On the screen I've got links to some of the more popular editors these days. The names of the plugins include:</p>
+            <ol>
+              <li>"linter dash eslint" for Atom</li>
+              <li>"Sublime linter dash contrib dash eslint" for Sublime Text</li>
+              <li>"Web Analyzer" for VS Code</li>
+            </ol>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h4>2. Install ESLint && <code>eslint-plugin-jsx-a11y</code></h4>
+          <pre>
+            <code class="language-bash">
+              npm install eslint eslint-plugin-jsx-a11y --save-dev
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>Next, install ESLint and the "eslint-plugin-jsx-a11y" packages from "npm."</p>
+            <p>You would do this by opening your terminal and typing:</p>
+            <p>"npm space install space eslint space eslint dash plugin dash jsx dash a11y space dash dash save dash dev"</p>
+            <p>This installs these utilities only for your current project, as each project might have a different configuration.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h4>3. Update the <code>.eslintrc</code> file</h4>
+          <p>Add to the "plugins" section:</p>
+          <pre>
+            <code class="language-bash">
+              "plugins": [
+                "jsx-a11y"
+              ]
+            </code>
+          </pre>
+          <p>Add to the "extends" section:</p>
+          <pre>
+            <code class="language-bash">
+              "extends": [
+                "plugin:jsx-a11y/recommended"
+              ]
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>The last thing to do is update, or create if it doesn't exist, your project's "eslint rc" file.</p>
+            <p>In the plugins section, you'd add "jsx dash a11y." This loads the plugin for use with your editor's ESLint plugin.</p>
+            <p>In the extends section, you'd add "plugin colon jsx dash a11y forward-slash recommended." This loads the default, recommended rules for the plugin to test your code against.</p>
+            <p>So, after this is all done, you'd just restart your editor and you should see some errors come up when you've got some accessibility issues in your code!</p>
+            <span role="img" aria-label="">👉</span>
+          </aside>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Writing semantic HTML in React <span role="img" aria-label="">✍️</span></h2>
+          <aside class="notes">
+            <p>The last thing I want to discuss is writing HTML in React.</p>
+            <p>In the past I've been asked the very broad, open ended question, "How accessible is React?"</p>
+            <p>This was coming from the knowledge that other "frameworks" had great difficulty when it came to a11y as a result of them providing third-party created user interfaces.</p>
+            <p>In other words, if something was not accessible, there's not much of a chance of it getting fixed as it relied on a third-party.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>React Components are ES6 Classes</h3>
+          <p>Since React uses <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes">ES6 classes</a> to make up its components, it’s up to you to continue to write good, clean, semantic HTML.</p>
+          <aside class="notes">
+            <p>With React, and other newer JavaScript "frameworks," this less the case.</p>
+            <p>What I've found is that since React uses ES6 classes to create and export components, it's up to you, the developer and app author, to continue to write valid, semantic HTML.</p>
+            <p>With the exception of using a third-party module from "npm" it's all up to you. The framework doesn't force you to use something that someone else create, thus lowering the risk of creating an inaccessible product.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>In other words…</h3>
+          <p>If there are accessibility issues, it's <strong>your</strong> fault. This is a good thing! <span role="img" aria-label="">👍</span></p>
+          <aside class="notes">
+            <p>In other words, if there are any accessibility issues, it's your fault. And this is a good thing! It's up to you as the developer to fix these issues. You don't have to wait for some third-party developer group to maybe get around to fixing these issues someday. You can do it youself, today. Own your product.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <!-- <section>
+          <h3>A <code>form</code> example</h3>
+          <pre>
+            <code class="language-jsx" contenteditable>
+              class Search extends Component {
+                render() {
+                  return (
+                    &lt;h2&gt;Search&lt;/h2&gt;
+                    &lt;form action="/" method="GET"&gt;
+                      &lt;label&gt;
+                        &lt;input type="search" name="search" id="search" /&gt;
+                      &lt;/label&gt;
+                      &lt;button&gt;Search&lt;/button&gt;
+                    &lt;/form&gt;
+                  );
+                }
+              }
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>So for example, here's this form component. It's a small search form, but everything's pretty much there to make it usuable.</p>
+            <p>(Describe what's on the screen.)</p>
+            <p>Do you spot any accessibility issues?</p>
+            <span role="img" aria-label="">👉</span>
+          </aside>
+        </section> -->
+      </section>
+      <section>
+        <h2>Demo! <span role="img" aria-label="">📱</span></h2>
+      </section>
+      <section>
+        <h2>Thanks! <span role="img" aria-label="">🙂</span></h2>
+      </section>
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+  <script src="plugin/prism/prism.js"></script>
+  <script>
+    Prism.plugins.NormalizeWhitespace.setDefaults({
+      'remove-trailing': true,
+      'remove-indent': true,
+      'left-trim': true,
+      'right-trim': true,
+      'break-lines': 52,
+      //'indent': 2,
+      'remove-initial-line-feed': true
+      //'tabs-to-spaces': 2,
+      //'spaces-to-tabs': 2
+    });
+  </script>
+
+  <script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+      dependencies: [{
+          src: 'plugin/markdown/marked.js'
+        },
+        {
+          src: 'plugin/markdown/markdown.js'
+        },
+        {
+          src: 'plugin/notes/notes.js',
+          async: true
+        },
+        {
+          src: 'plugin/accessibility/helper.js',
+          async: true,
+          condition: function() {
+            return !!document.body.classList;
+          }
+        },
+        {
+          src: 'plugin/title-footer/title-footer.js',
+          async: true,
+          callback: function() {
+            title_footer.initialize('Creating Accessible React Apps • <a href="https://simplyaccessible.github.io/tv-db/">Demo App</a> • <a href="https://twitter.com/svinkle">@svinkle</a>');
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+
+</html>
