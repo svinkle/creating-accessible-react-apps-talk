@@ -185,6 +185,7 @@ body {
   vertical-align: sub; }
 
 .reveal small {
+  color: #898989;
   display: inline-block;
   font-size: 0.6em;
   line-height: 1.2em;
