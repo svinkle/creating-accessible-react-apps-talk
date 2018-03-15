@@ -48,9 +48,18 @@ document.getElementsByTagName('head')[0].appendChild(link);
           </ul>
         </div>
         <aside class="notes">
-          <p>Hello everyone, I'm Scott Vinkle.</p>
-          <p>I'm a front end developer and accessibility advocate at Shopify. You can find me on Twitter, GitHub, and pretty much everything else at "svinkle."</p>
-          <p>Today I'm going to help answer the question…</p>
+          <p>Hi everyone!</p>
+          <p>We’ll be starting the webinar in just a few minutes. Before we dive into things, I want to make sure that you can hear me and see the presentation slide. If you can let me know using the questions panel, that would be great.</p>
+          <p>…</p>
+          <p><em>Fantastic!</em></p>
+          <p>…</p>
+          <p>Hello everyone! Thank you for coming out to today’s partner session.</p>
+          <p>I’m <strong>Scott Vinkle</strong>, a <strong>front end developer and web accessibility advocate</strong> here at Shopify and today I’ll be talking about <strong>How to Create Accessible React Apps</strong>.</p>
+          <p>For those of you having to cut out half-way through the presentation, or your connection drops (or anything like that), we’ll be recording the webinar and providing everyone with a copy in about a week-or-two.</p>
+          <p>If you have any questions, feel free to ask them throughout the presentation using the questions panel. I’ll be answering them at the end of the webinar.</p>
+          <!-- <p>Hello everyone, I'm Scott Vinkle.</p>
+          <p>I'm a front end developer and accessibility advocate at Shopify. You can find me on Twitter, GitHub, and pretty much everything else at "svinkle."</p> -->
+          <p>So, today I'm going to help answer the question…</p>
           <span role="img" aria-label="">👉</span>
         </aside>
       </section>
@@ -428,7 +437,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <p>In React, the concept's <em>pretty</em> much the same, but how we arrive there is a little different.</p>
             <p>In order to select an element, "the react way," we create what's called a "function ref," or, <code>ref</code> for short.</p>
-            <p>The <code>ref</code> is a prop that is set on the element we want to reference elsewhere in the component.</p>
+            <p>The <code>ref</code> is a prop that is set on the element we want to reference elsewhere in the component. It allows us to select and reference, in React, an actual DOM node on the page.</p>
             <p>So as an example…</p>
             <ol>
               <li>What's on the screen here is a plain <code>div</code> element. Within the <code>div</code> is the phrase, "loading." This is meant to be displayed when the app is in a loading state.</li>
@@ -467,7 +476,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
         </section>
         <section>
           <h3>Why manage focus when loading a new page? <span role="img" aria-label="">🤔</span></h3>
-          <p>When using React Router's <code>&lt;Link /&gt;</code> component, the browser never <em>actaully</em> reloads, leaving the user's focus state in an unknown position.</p>
+          <p>When using React Router's <code>&lt;Link /&gt;</code> component, the browser never <em>actually</em> reloads, leaving the user's focus state in an unknown position.</p>
           <aside class="notes">
             <p>So, why exactly do we need do this?</p>
             <p>For one, when using React Router's Link component, new pages are inserted into React's Virtual DOM without reloading the browser. As a result, pages are precieved to load very quickly, but people who depend on assistive technology such as a screen reader may be left in an unpredictable state.</p>
@@ -526,19 +535,56 @@ document.getElementsByTagName('head')[0].appendChild(link);
             </aside>
           </aside>
         </section>
+        <section>
+          <h3><span role="img" aria-label="">🔥</span> New <code>ref</code> syntax</h3>
+          <p>React <strong>16.3</strong> will be introducing a new, simpler way to create <code>ref</code>s.</p>
+          <aside class="notes">
+            <p>Now, if after learning about how to create a <code>ref</code> using the function syntax is a little confusing (and it is for me, too) there's actually a brand new way to create a <code>ref</code> which is coming in React 16.3.</p>
+            <p>Let's take a look at an example of this new syntax…</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>The <code>createRef()</code> method</h3>
+          <pre>
+            <code class="language-jsx">
+              // 1. Create a new class property
+              loading = React.createRef();
+
+              // 2. Assign the class property to
+              // the element via ref prop
+              &lt;div ref={this.loading} tabIndex="-1"&gt;
+                Loading…
+              &lt;/div&gt;
+
+              // 3. Call the focus method within componentDidMount
+              this.loading.value.focus();
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>Coming back to the Loading component example, the snippets of code on the screen here gives a general outline of the new <code>ref</code> syntax.</p>
+            <ol>
+              <li>The first part to this is to create a new class property. Displayed here is an assignment statement which reads; <code>loading</code> equals <code>React.crearteRef</code>. This creates a new class property called <code>loading</code> and assigns it the new <code>React</code> method, <code>crearteRef</code>.</li>
+              <li>Now that we have our <code>ref</code> created, the next step is to assign the <code>ref</code> class property to an element using the <code>ref</code> prop. On the screen is a <code>div</code> element with its <code>ref</code> prop being assigned, <code>this.loading</code>. At this point, the <code>loading</code> class property we created in the first step now references the <code>div</code> in our <code>render</code> method.</li>
+              <li>The last step is to actually use the new <code>loading</code> class property. With this example of sending focus to the <code>div</code> when the component loads, we can add a single line of code within the Loading component's <code>componentDidMount</code> method. The line reads, <code>this.loading.value.focus</code>. And with this, focus would be send to the <code>div</code> when the component loads onto the screen.</p>
+            </ol>
+            <p>So, you may have noticed the <code>value</code> node of that last line. This represents the <em>actual</em> element which has been assigned to the class property <code>ref</code>. In the previous example, it represents the <code>div</code> element. With this in mind you might imagine what we'd need to write in order to get the current value of an <code>input</code> element. It would look something like <code>this.propertyName.value.value</code>. So that may look a little odd when it's written out, but that's how its done.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
       </section>
       <section>
         <section>
-          <h2>Using <code>React.Fragment</code> <span role="img" aria-label="">🥒</span></h2>
+          <h2>Using <code>Fragment</code> components <span role="img" aria-label="">🥒</span></h2>
           <aside class="notes">
-            <p>Let's talk about a new-ish feature in React, the contept of Fragments.</p>
+            <p>Let's talk about a new feature available now as of React 16.2, Fragment components.</p>
             <p>What are fragments and why should we use them? How do they help with accessibility of our apps?</p>
             <p>Let's answer these questions…</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
         <section>
-          <h3>What are Fragments?</h3>
+          <h3>What are <code>Fragment</code>s?</h3>
           <p><a href="https://reactjs.org/docs/fragments.html">Fragments</a> let you group a list of elements/child components without adding extra nodes to the DOM.</p>
           <aside class="notes">
             <p>So, what are Fragments?</p>
@@ -630,6 +676,27 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <p>And here's the result…</p>
             <p>That looks much better! Semeantic, valid HTML with no extra wrapper elements. Nice!</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Newer, optional syntax</h3>
+          <pre>
+            <code class="language-jsx">
+              render() {
+                return (
+                  &lt;&gt;
+                    &lt;td&gt;Hello&lt;/td&gt;
+                    &lt;td&gt;World&lt;/td&gt;
+                  &lt;/&gt;
+                );
+              }
+            </code>
+          </pre>
+          <p>Make sure your editor/tooling supports this before using.</p>
+          <aside class="notes">
+            <p>I feel it's worth mentioning that there is another way of creating <code>Fragment</code> elements. Basically you just remove the <code>React.Fragment</code> string from within the beginning and end <code>Fragment</code> tag and leave the angle brackets behind. This syntax is specific to JSX and is meant to be a quicker and more convienent way of creating <code>Fragment</code>s.</p>
+            <p>Now, there may be issues when using this when your editor or other tools like linters or formatters don't know about this syntax. So, it's recommended to make sure you have the latest versions of your editor and any related tooling to provide this new syntax support.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
