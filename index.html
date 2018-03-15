@@ -69,8 +69,8 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <p><strong>Can React apps be accessible?</strong></p>
             <p>It seems like there's sometimes a <em>bit</em> of reserve or hesitation when considering building an app with newer technology like React.</p>
-            <p>Often times folks may feel like these types of apps are difficult or perhaps impossible to be made accessible by their very nature of them relying so heavily on JavaScript.</p>
-            <p>Well, I wanted to get this out of the way right away. To answer the question…</p>
+            <p>Often times folks may feel like these types of apps are difficult or perhaps impossible to be made accessible by their very nature of relying so heavily on JavaScript.</p>
+            <p>Well, to answer this question…</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
@@ -104,7 +104,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
             <li>We'll review how to create a live announcements component</li>
             <li>We'll explore how to manage keyboard focus <em>between</em> components and when loading new pages</li>
             <li>We'll take a brief look at React's accessibility linter which comes with each new app</li>
-            <li>We'll spotlight a new<em>-ish</em> feature with React Fragments</li>
+            <li>We'll spotlight a new feature with React <code>Fragment</code>s</li>
             <li>I'll share some thoughts on writing semantic HTML within React components</li>
             <li>And at the end I'll go through a small demo app I created to help illustrate each point</li>
           </ol>
@@ -116,8 +116,8 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <h2>Notes on getting started <span role="img" aria-label="">📓</span></h2>
           <aside class="notes">
             <p>A few things to watch for when first starting to develop with React.</p>
-            <p>These took me a little by surprise and I had to get use to writing code this way, but it wasn't too long before I got used to it.</p>
-            <p>And if you do make a mistake and write something incorrectly, you'll get a friendly warning in your browser devtools console with tips on how to fix it.</p>
+            <p>These took me a little by surprise at first, but it wasn't too long before I got used to it.</p>
+            <p>And if you do make a mistake and write something incorrectly, you'll get a friendly warning in your browser devtools console with tips on how to fix the issue.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
@@ -161,8 +161,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
           </aside>
         </section>
         <section>
-          <h3>Self closing tags require <code aria-label="a closing slash">/</code></h3>
-          <p>What is this, XHTML? <span role="img" aria-label="">🙈‍</span></p>
+          <h3>Self closing elements require <code aria-label="a closing slash">/</code></h3>
           <ul>
             <li><code class="language-markup">&lt;img src="…" alt=""&gt;</code> <span role="img" aria-label="needs to be written as">👉</span> <code class="language-markup">&lt;img src="…" alt="" /&gt;</code></li>
             <li><code class="language-markup">&lt;meta charset="utf-8"&gt;</code> <span role="img" aria-label="needs to be written as">👉</span> <code class="language-markup">&lt;meta charset="utf-8" /&gt;</code></li>
@@ -192,7 +191,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
             <li>Often the first content announced by screen readers</li>
           </ul>
           <aside class="notes">
-            <p>So, why bother with setting the page <code>title</code> content?</p>
+            <p>So, you may be wondering why bother setting the page <code>title</code> content?</p>
             <p>Well, a few reasons:</p>
             <ol>
               <li>It updates the content in the browser tab, so sighted users have a better understanding of where they are in the app</li>
@@ -217,9 +216,9 @@ document.getElementsByTagName('head')[0].appendChild(link);
             <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/title">More on MDN</a></li>
           </ul>
           <aside class="notes">
-            <p>The simplest method that I found is to set the <code>title</code> using the JavaScript <code>document.title</code> global property.</p>
+            <p>The simplest method I found to set the <code>title</code> is by using the JavaScript <code>document.title</code> global property.</p>
             <p>On the screen here is a function called "component did mount." This is a React lifecycle method. The code within this function executes when the component is loaded onto the screen.</p>
-            <p>The single line within this function is using <code>document.title</code> to set a string value of, "My page title" as the title. So when this components loads, the page <code>title</code> will be set to this value.</p>
+            <p>The single line within this function is using <code>document.title</code> to set a string value of, "My page title." So when this components loads, the page <code>title</code> will be set to this value.</p>
             <p>It's also worth noting this is not specific or unique to React; this method can be used in any JavaScript based application or web site.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
@@ -251,7 +250,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
             </li>
           </ul>
           <aside class="notes">
-            <p>So I felt like it would be worth mentioning that there are other, pre-existing components that other developers have made. These components can be included in your project via <code>npm</code>.</p>
+            <p>I felt like it would be worth mentioning that there are other, pre-existing components that other developers have made for setting the title. These components can be included in your project via <code>npm</code>.</p>
             <p>For example…</p>
             <ol>
               <li>The first one called <code>react-document-title</code> can be used by wrapping your content with a <code>DocumentTitle</code> component. Then, add a <code>title</code> prop and set its value to the desired page title.</li>
@@ -351,7 +350,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <p>Lastly, we'll include the Announcements component within the parent component.</p>
             <p>In order to send it the message text from state to the Announcements component, we use a prop.</p>
-            <p>The prop on the screen here is called, <code>message</code> with its value being set to whatever's currently in the <code>message</code> state property.</p>
+            <p>The prop on the screen here is called, <code>message</code> with its value being set to <code>this.state.message</code>.</p>
             <p>So when this component loads, the message will be announced by a screen reader and the person using the app will be informed of the current state message.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
@@ -384,6 +383,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
               <li>This one called <code>react-aria-live</code> requires a LiveAnnouncer component to be added to your template. Then within this there's a LiveMessage component which takes the same <code>message</code> prop as described before, along with the <code>aria-live</code> attribute. Also within the LiveAnnouncer component is your content that would be dynamically updated based on some event.</li>
               <li>The other component I found called <code>react-a11y-announcer</code> is literally the same thing that I came up with which I described ealier.</li>
             </ol>
+            <p>So, those are both available for you to check out.</p>
             <span role="img" aria-label="">👉</span>
           </aside>
         </section>
@@ -530,7 +530,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <aside class="notes">
               <p>Again, we can use the <code>ref</code> within the "component did mount" lifecycle method, and then call the <code>focus</code> method on the <code>ref</code> class property.</p>
-              <p>When the "page" loads, the keyboard focus indicator will be sent to the container <code>div</code> element and the user can continue on with content discovery from this point.</p>
+              <p>To reiterate, when the "page" loads, the keyboard focus indicator will be sent to the container <code>div</code> element and the user can continue on with content discovery from this point.</p>
               <span role="img" aria-label="">👉</span>
             </aside>
           </aside>
@@ -564,11 +564,12 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <p>Coming back to the Loading component example, the snippets of code on the screen here gives a general outline of the new <code>ref</code> syntax.</p>
             <ol>
-              <li>The first part to this is to create a new class property. Displayed here is an assignment statement which reads; <code>loading</code> equals <code>React.crearteRef</code>. This creates a new class property called <code>loading</code> and assigns it the new <code>React</code> method, <code>crearteRef</code>.</li>
-              <li>Now that we have our <code>ref</code> created, the next step is to assign the <code>ref</code> class property to an element using the <code>ref</code> prop. On the screen is a <code>div</code> element with its <code>ref</code> prop being assigned, <code>this.loading</code>. At this point, the <code>loading</code> class property we created in the first step now references the <code>div</code> in our <code>render</code> method.</li>
-              <li>The last step is to actually use the new <code>loading</code> class property. With this example of sending focus to the <code>div</code> when the component loads, we can add a single line of code within the Loading component's <code>componentDidMount</code> method. The line reads, <code>this.loading.value.focus</code>. And with this, focus would be send to the <code>div</code> when the component loads onto the screen.</p>
+              <li>The first part to this is to create a new class property. Displayed here is an assignment statement which reads; <code>loading</code> equals <code>React.createRef</code>. This creates a new class property called <code>loading</code> and creates a new <code>ref</code> object for use later in the component.</li>
+              <li>Now that we have our <code>ref</code> object created, the next step is to assign the <code>ref</code> to an element using the <code>ref</code> prop. On the screen is a <code>div</code> element with its <code>ref</code> prop being assigned, <code>this.loading</code>. At this point, the <code>loading</code> class property we created in the first step now references the <code>div</code> in our <code>render</code> method.</li>
+              <li>Finally, the last step is to actually use the <code>loading</code> class property. With this example of sending focus to the <code>div</code> when the component loads, we can add a single line of code within the Loading component's <code>componentDidMount</code> method. The line reads, <code>this.loading.value.focus</code>. And with this, focus would be send to the <code>div</code> when the component loads onto the screen.</p>
             </ol>
-            <p>So, you may have noticed the <code>value</code> node of that last line. This represents the <em>actual</em> element which has been assigned to the class property <code>ref</code>. In the previous example, it represents the <code>div</code> element. With this in mind you might imagine what we'd need to write in order to get the current value of an <code>input</code> element. It would look something like <code>this.propertyName.value.value</code>. So that may look a little odd when it's written out, but that's how its done.</p>
+            <p>So, you may have noticed the <code>value</code> node of that last line. This represents the <em>actual</em> element which has been assigned to the <code>ref</code> object. In this example, it represents the <code>div</code> element.</p>
+            <p>With this in mind you might imagine what we'd need to write in order to get the current value of an <code>input</code> element. It would look something like <code>this.refName.value.value</code>. So that may look a little odd when it's written out, but that's how its done.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
@@ -675,12 +676,12 @@ document.getElementsByTagName('head')[0].appendChild(link);
           </pre>
           <aside class="notes">
             <p>And here's the result…</p>
-            <p>That looks much better! Semeantic, valid HTML with no extra wrapper elements. Nice!</p>
+            <p>That looks much better! Semantic, valid HTML with no extra wrapper elements. Nice!</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
         <section>
-          <h3>Newer, optional syntax</h3>
+          <h3><span role="img" aria-label="">🔥</span> Newer, optional syntax</h3>
           <pre>
             <code class="language-jsx">
               render() {
@@ -696,7 +697,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <p>Make sure your editor/tooling supports this before using.</p>
           <aside class="notes">
             <p>I feel it's worth mentioning that there is another way of creating <code>Fragment</code> elements. Basically you just remove the <code>React.Fragment</code> string from within the beginning and end <code>Fragment</code> tag and leave the angle brackets behind. This syntax is specific to JSX and is meant to be a quicker and more convienent way of creating <code>Fragment</code>s.</p>
-            <p>Now, there may be issues when using this when your editor or other tools like linters or formatters don't know about this syntax. So, it's recommended to make sure you have the latest versions of your editor and any related tooling to provide this new syntax support.</p>
+            <p>Now, there may be issues when using this when your editor or other tools like linters or formatters don't know about this syntax. So, it's recommended to make sure you have the latest versions of your editor and any related tooling to provide the necessary support for this.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
@@ -808,8 +809,8 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <p>The last thing I want to discuss is writing HTML in React.</p>
             <p>In the past I've been asked the very broad, open ended question, "How accessible is React?"</p>
-            <p>This was coming from the knowledge that other frameworks or libraries had great difficulty when it came to accessibility as a result of a framework or library team providing third-party user interfaces and components.</p>
-            <p>In other words, if something was not accessible, there's not a great chance of it <em>actually</em> getting fixed as it relied on a third-party team.</p>
+            <p>This was coming from the knowledge that other frameworks or libraries had great difficulty when it came to accessibility as a result of the framework team providing third-party user interfaces and components.</p>
+            <p>In other words, if something wasn't accessible, there's not a great chance of it <em>actually</em> getting fixed as it relied on a third-party team.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
@@ -828,8 +829,8 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <h3>React Components are ES6 Classes</h3>
           <p>Since React uses <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes">ES6 classes</a> and standard HTML markup to generate its components, it’s up to you to continue to write good, clean, semantic HTML.</p>
           <aside class="notes">
-            <p>What I've found is that since React uses ES6 classes and standard HTML markup within its templates to create and export components, it's up to you, the developer and app author, to continue to write valid, semantic HTML.</p>
-            <p>With the exception of using a third-party module from <code>npm</code> it's all up to you. The library itself doesn't force you to use something that someone else made, thus lowering the risk of creating an inaccessible product.</p>
+            <p>What I've found is that since React uses ES6 classes and standard HTML markup within its templates to create and export components, it's up to you, the developer, to continue to write valid, semantic HTML.</p>
+            <p>With the exception of using a third-party module from <code>npm</code> it's really all up to you. React doesn't force you to use something that someone else made, thus lowering the risk of creating an inaccessible product.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
@@ -847,11 +848,18 @@ document.getElementsByTagName('head')[0].appendChild(link);
       <section>
         <h2>Demo! <span role="img" aria-label="">📱</span></h2>
         <p>Check out the demo app, <a href="https://github.com/svinkle/tv-db" target="_blank">TV-Db <span role="img" aria-label=", opens in a new window">📺</span></a>.</p>
-        <p><small>(Remember to demo in <strong>Safari</strong>, Scott. <span role="img" aria-label="">🐨</span>)</small></p>
         <aside class="notes">
           <ol>
             <li>Switch display modes to mirror</li>
-            <li>Remember to demo in Safari</li>
+            <li>Remember to demo in Safari, with a second open tab to see the <code>title</code> update</li>
+          </ol>
+          <p>What we saw in the demo…</p>
+          <ol>
+            <li>You might have noticed the page <code>title</code> being updated</li>
+            <li>When the loading screen appeared, the message, "loading" was announced</li>
+            <li>When the search was complete, the number of items avaialble was announced</li>
+            <li>When a new page loaded, keyboard focus started from the top of the page allowing the user to navigate forward to discover content in a natural way</li>
+            <li>When using the keyboard alone, there was a visible blue outline on each focusable element to let the user know of their current position in the app</li>
           </ol>
         </aside>
       </section>
