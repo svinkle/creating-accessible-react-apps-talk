@@ -307,9 +307,21 @@ h1.logo span {
   width: 200px;
 }
 
+.reveal .logo-link,
+.reveal .logo-link:focus,
+.reveal .logo-link:hover {
+  text-decoration: none !important;
+}
+
 .reveal .employer-logo {
     margin-top: 4rem;
-    max-width: 225px;
+    max-width: 250px;
+}
+
+.reveal .a11yproject-logo,
+.reveal .clc-logo {
+    margin: 1rem;
+    max-width: 100px;
 }
 
 .reveal dt {

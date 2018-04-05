@@ -41,14 +41,22 @@ document.getElementsByTagName('head')[0].appendChild(link);
               <a href="https://svinkle.me">Scott Vinkle</a> • <a href="https://twitter.com/svinkle">@svinkle</a>
             </li>
             <li>
-              <a href="https://shopify.com">
+              <a href="https://shopify.com" class="logo-link">
                 <img src="images/shopify_logo_darkbg.svg" role="img" alt="Shopify" class="employer-logo">
+              </a>
+            </li>
+            <li>
+              <a href="https://canadalearningcode.ca" class="logo-link">
+                <img src="images/CLC-Icon-RedCircle-WhiteIcon-Solid.svg" role="img" alt="Canada Learning Code" class="clc-logo">
+              </a>
+              <a href="https://a11yproject.com" class="logo-link">
+                <img src="images/a11yproject_logo.svg" role="img" alt="A11y Project" class="a11yproject-logo">
               </a>
             </li>
           </ul>
         </div>
         <aside class="notes">
-          <p>Hi everyone!</p>
+          <!-- <p>Hi everyone!</p>
           <p>We’ll be starting the webinar in just a few minutes. Before we dive into things, I want to make sure that you can hear me and see the presentation slide. If you can let me know using the questions panel, that would be great.</p>
           <p>…</p>
           <p><em>Fantastic!</em></p>
@@ -56,9 +64,10 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <p>Hello everyone! Thank you for coming out to today’s partner session.</p>
           <p>I’m <strong>Scott Vinkle</strong>, a <strong>front end developer and web accessibility advocate</strong> here at Shopify and today I’ll be talking about <strong>How to Create Accessible React Apps</strong>.</p>
           <p>For those of you having to cut out half-way through the presentation, or your connection drops (or anything like that), we’ll be recording the webinar and providing everyone with a copy in about a week-or-two.</p>
-          <p>If you have any questions, feel free to ask them throughout the presentation using the questions panel. I’ll be answering them at the end of the webinar.</p>
-          <!-- <p>Hello everyone, I'm Scott Vinkle.</p>
-          <p>I'm a front end developer and accessibility advocate at Shopify. You can find me on Twitter, GitHub, and pretty much everything else at "svinkle."</p> -->
+          <p>If you have any questions, feel free to ask them throughout the presentation using the questions panel. I’ll be answering them at the end of the webinar.</p> -->
+          <p>Hello everyone, I'm Scott Vinkle.</p>
+          <p>I'm a front end developer and accessibility advocate at Shopify. I'm also a Canada Learning Code chapter co-lead, and the current a11yProject.com maintainer, which is a great resource for all things web accessibility.</p>
+          <p>You can find me on Twitter, GitHub, and pretty much everything else at "svinkle."</p>
           <p>So, today I'm going to help answer the question…</p>
           <span role="img" aria-label="">👉</span>
         </aside>
@@ -75,7 +84,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
           </aside>
         </section>
         <section>
-          <h3>Yes! <span role="img" aria-label="">😄🙌🚀🍕</span></h3>
+          <h3>Yes! <span role="img" aria-label="">😄🙌🚀🎉</span></h3>
           <p>Continue on to find out how…</p>
           <aside class="notes">
             <p>Yes, React apps can <em>absolutely</em> be made to be accessible for people with disabilities!</p>
@@ -846,22 +855,36 @@ document.getElementsByTagName('head')[0].appendChild(link);
         </section>
       </section>
       <section>
-        <h2>Demo! <span role="img" aria-label="">📱</span></h2>
-        <p>Check out the demo app, <a href="https://github.com/svinkle/tv-db" target="_blank">TV-Db <span role="img" aria-label=", opens in a new window">📺</span></a>.</p>
-        <aside class="notes">
+        <section>
+          <h2>Demo! <span role="img" aria-label="">📱</span></h2>
+          <p>Check out the demo app, <a href="https://tv-db.net/" target="_blank">TV-Db <span role="img" aria-label=", opens in a new window">📺</span></a>.</p>
+          <aside class="notes">
+            <ol>
+              <li>Switch display modes to mirror</li>
+              <li>Remember to demo in Safari, with a second open tab to see the <code>title</code> update</li>
+            </ol>
+          </aside>
+        </section>
+        <section>
+          <h3>Demo Highlights <span role="img" aria-label="">📱</span></h3>
           <ol>
-            <li>Switch display modes to mirror</li>
-            <li>Remember to demo in Safari, with a second open tab to see the <code>title</code> update</li>
+            <li>The page <code>title</code> being updated</li>
+            <li>The message, "loading" was announced</li>
+            <li>Number of items avaialble was announced</li>
+            <li>Keyboard focus started from the top of the page</li>
+            <li>There was a visible blue outline on each focusable element</li>
           </ol>
-          <p>What we saw in the demo…</p>
-          <ol>
-            <li>You might have noticed the page <code>title</code> being updated</li>
-            <li>When the loading screen appeared, the message, "loading" was announced</li>
-            <li>When the search was complete, the number of items avaialble was announced</li>
-            <li>When a new page loaded, keyboard focus started from the top of the page allowing the user to navigate forward to discover content in a natural way</li>
-            <li>When using the keyboard alone, there was a visible blue outline on each focusable element to let the user know of their current position in the app</li>
-          </ol>
-        </aside>
+          <aside class="notes">
+            <p>What we witnessed in the demo…</p>
+            <ol>
+              <li>You might have noticed the page <code>title</code> being updated</li>
+              <li>When the loading screen appeared, the message, "loading" was announced</li>
+              <li>When the search was complete, the number of items avaialble was announced</li>
+              <li>When a new page loaded, keyboard focus started from the top of the page allowing the user to navigate forward to discover content in a natural way</li>
+              <li>When using the keyboard alone, there was a visible blue outline on each focusable element to let the user know of their current position in the app</li>
+            </ol>
+          </aside>
+        </section>
       </section>
       <section>
         <h2>Thanks! <span role="img" aria-label="">🙂</span></h2>
@@ -930,7 +953,7 @@ Reveal.initialize({
       async: true,
       callback: function() {
         title_footer.initialize(
-          'Creating Accessible React Apps • <a href="https://svinkle.github.io/tv-db/">Demo App</a> • <a href="https://twitter.com/svinkle">@svinkle</a>'
+          'Creating Accessible React Apps • <a href="https://tv-db.net/">Demo App</a> • <a href="https://twitter.com/svinkle">@svinkle</a>'
         );
       }
     }
