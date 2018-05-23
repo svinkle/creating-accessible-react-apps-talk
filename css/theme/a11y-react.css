@@ -315,13 +315,14 @@ h1.logo span {
 
 .reveal .employer-logo {
     margin-top: 4rem;
-    max-width: 250px;
+    max-width: 300px;
 }
 
 .reveal .a11yproject-logo,
-.reveal .clc-logo {
+.reveal .clc-logo,
+.reveal .hackeryou-logo {
     margin: 1rem;
-    max-width: 100px;
+    max-width: 75px;
 }
 
 .reveal dt {
