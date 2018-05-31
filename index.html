@@ -69,7 +69,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <p>For those of you having to cut out half-way through the presentation, or your connection drops (or anything like that), we’ll be recording the webinar and providing everyone with a copy in about a week-or-two.</p>
           <p>If you have any questions, feel free to ask them throughout the presentation using the questions panel. I’ll be answering them at the end of the webinar.</p> -->
           <p>Hello everyone, I'm Scott Vinkle.</p>
-          <p>I'm a front end developer and accessibility advocate at Shopify. I'm also a Canada Learning Code chapter co-lead, and the current a11yProject.com maintainer, which is a great resource for all things web accessibility.</p>
+          <p>I'm a front end developer and accessibility advocate at Shopify. I'm also a Canada Learning Code chapter co-lead, I create an instruct accessibility workshops at HackerYou in Toronto, and I'm the current a11yProject.com maintainer, which is a great resource for all things web accessibility.</p>
           <p>You can find me on Twitter, GitHub, and pretty much everything else at "svinkle."</p>
           <p>So, today I'm going to help answer the question…</p>
           <span role="img" aria-label="">👉</span>
@@ -82,6 +82,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
             <p><strong>Can React apps be accessible?</strong></p>
             <p>It seems like there's sometimes a <em>bit</em> of reserve or hesitation when considering building an app with newer technology like React.</p>
             <p>Often times folks may feel like these types of apps are difficult or perhaps impossible to be made accessible by their very nature of relying so heavily on JavaScript.</p>
+            <p>Also, what I mean when I say "accessible" I don't mean making react "available" to developers, but rather making sure your React based apps are usable by people with disabilities who rely on assistive technology such as a screen reader.</p>
             <p>Well, to answer this question…</p>
             <span role="img" aria-label="">👇</span>
           </aside>
@@ -194,24 +195,33 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <h2>Setting the page <code>title</code> <span role="img" aria-label="">📰</span></h2>
           <img src="images/page-title.webp" width="480" height="341" alt="Homer Simpsons's web page, featuring many animated gifs and a dancing Jesus.">
           <aside class="notes">
-            <p>Now, let's take a look at how to set the page <code>title</code>.</p>
+            <p>Now, let's take a look at how to set the page <code>title</code> and why doing so is so critical to accessibility of your app.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
         <section>
-          <h3>Why bother? <span role="img" aria-label="">🤔</span></h3>
+          <h3>The problem… <span role="img" aria-label="">🤔</span></h3>
+          <p>When someone using a <strong>screen reader</strong> loads a new page, the initial page announcement is always the same.</p>
+          <aside class="notes">
+            <p>So, here's the problem. When someone using a <strong>screen reader</strong> loads a new page, the initial page announcement is always the same. Why?</p>
+            <p>Typically with a Single Page App, the page <code>title</code> element in the <code>head</code> section of the document remains static. This is a problem for other folks, too, as we'll see.</p>
+            <p>So, we overcome this issue by setting a unique page <code>title</code>, but does anyone know any other benifits to doing this?</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Set the page <code>title</code>! <span role="img" aria-label="">👍</span></h3>
           <ul>
-            <li>Updates the browser tab</li>
-            <li>Search Engine Optimization</li>
+            <li>Updates the browser tab for sighted users</li>
+            <li>Helps with Search Engine Optimization</li>
             <li>Often the first content announced by screen readers</li>
           </ul>
           <aside class="notes">
-            <p>So, you may be wondering why bother setting the page <code>title</code> content?</p>
-            <p>Well, a few reasons:</p>
+            <p>By setting the page <code>title</code> we benifit in a few ways:</p>
             <ol>
-              <li>It updates the content in the browser tab, so sighted users have a better understanding of where they are in the app</li>
-              <li>It helps to increase Search Engine Optimization when something like Google goes through and indexes your app</li>
-              <li>And the page <code>title</code> content is often the first bit of information announced by screen readers, so users of assistive technology will have a better understanding of their current place in the app</li>
+              <li>It updates the content in the browser tab, so sighted users have a better understanding of where they are in the app, specifically when deep-linking</li>
+              <li>It helps to increase Search Engine Optimization when something like Google goes through and indexes your app content</li>
+              <li>And the page <code>title</code> content is often the first bit of information announced by screen readers, so users of assistive technology will have a better understanding of their current place within the app</li>
             </ol>
             <p>So, how do we do this in React?</p>
             <span role="img" aria-label="">👇</span>
@@ -281,14 +291,29 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <img src="images/announcement.gif" width="480" height="480" alt="A man using a megaphone. For some reason, a hamburger is seen coming from his mouth, going through the megaphone, and out comes an even larger hamburger."></img>
           <aside class="notes">
             <p>Now let's take a look at a complete, live announcements component.</p>
-            <p>Sometimes when you're working with a single page app, you might request data from an external data source.</p>
-            <p>For people who rely on assistive technology it's a good idea to announce when and if the data request was successful or not, and if successful, how many items are now on displayed the screen as a result.</p>
-            <p>Let's take a look at how to create a live announcement component.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
         <section>
-          <h3>The <code>Announcements</code> component</h3>
+          <h3>The problem… <span role="img" aria-label="">🤔</span></h3>
+          <p>When a Single Page App fetches data, the new content is visibly displayed.</p>
+          <p>However, screen reader users recieve no indication of the available content.</p>
+          <aside class="notes">
+            <p>Sometimes when you're working with a single page app, it's common that you would request data from an external data source.</p>
+            <p>When the data is output to the user interface, sighted users can see that content is now available and ready for consumption.</p>
+            <p>For people who rely on assistive technology, however, they might be unaware that anything's taken place. So, it's a good idea to announce when and if the data request was successful or not, and if successful, how many items are now on displayed the screen as a result.</p>
+            <p>Can anyone think of any other situation or user experience when a live announcement would be ideal?</p>
+            <ul>
+              <li>Loading state</li>
+              <li>Search result state</li>
+              <li>Perhaps a dyamic form submission on success/error</li>
+            </ul>
+            <p>How do we overcome this issue?</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Create a Live <code>Announcements</code> component <span role="img" aria-label="">👍</span></h3>
           <pre>
             <code class="language-jsx">
                 import React from 'react';
@@ -307,6 +332,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
             </code>
           </pre>
           <aside class="notes">
+            <p>Let's create a live announcements component which will help announce new app state.</p>
             <p>Here we have the Announcements component in its entirety.</p>
             <ol>
               <li>First thing is to import React from React</li>
@@ -411,8 +437,29 @@ document.getElementsByTagName('head')[0].appendChild(link);
           <aside class="notes">
             <p>Moving on now to the concept of focus management.</p>
             <p>Well planned focus management is critical in creating a successful and comfortable user experience, especially for highly dynamic or single page apps.</p>
-            <p>What I mean by focus management is moving the <em>keyboard cursor</em> from one place to another in order to assist the person on the other side of the screen in moving along with the intended flow of the app.</p>
+            <p>What I mean by focus management is moving the <em>keyboard cursor</em> from one place in the app to another in order to assist the person on the other side of the screen in moving along with the intended flow of the app in order to complete their task.</p>
             <p>Let's take a look at a couple examples.</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>The problem… <span role="img" aria-label="">🤔</span></h3>
+          <p>A loading screen in our app displays a message in-between fetching new data. Sighted users can read the message a wait patiently… <em>probably</em>.</p>
+          <p>However, screen reader users do not recieve this message conveying the current app state. They might get discouraged or blame themselves when something takes a long time to load.</p>
+          <aside class="notes">
+            <p>So, in the example scenario here, the app we're working with has a loading screen which displays in-between fetching data.</p>
+            <p>When this screen appears, sighter users can read the message just fine and wait for the next screen to load.</p>
+            <p>However, screen reader users are not made aware of the current state which might be a bit frustrating or concerning if the app takes a while to fetch data. They could start to wonder if the app is broken or even blame themselves that they did somthing incorrectly.</p>
+            <p>How to make sure the loading message is shared with everyone using the app?</p>
+            <span role="img" aria-label="">👇</span>
+          </aside>
+        </section>
+        <section>
+          <h3>Focus management! <span role="img" aria-label="">👍</span></h3>
+          <p>Let's shift focus to the Loading message container when it gets displayed.</p>
+          <aside class="notes">
+            <p>One way to fix the issue is focus management! Let's send the keyboard focus to the Loading message container in order for someone using assistive technology to also recieve the message.</p>
+            <p>How do we actually manage focus in a react app?</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
@@ -427,7 +474,6 @@ document.getElementsByTagName('head')[0].appendChild(link);
             </code>
           </pre>
           <aside class="notes">
-            <p>First thing we need to do is select an element to send focus to. How do we do this in React?</p>
             <p>Well, it can be helpful to think about how you might be used to selecting an element with something like jQuery.</p>
             <p>On the screen is an example of the jQuery dollar selector, caching a reference to the "loading message" element in a variable called <code>loadingMessage</code>.</p>
             <p>Somewhere else in this app, we could use the variable and call its <code>focus</code> method to set the keyboard cursor directly onto this element.</p>
@@ -485,19 +531,20 @@ document.getElementsByTagName('head')[0].appendChild(link);
       </section>
       <section>
         <section>
-          <h2>More focus management! <span role="img" aria-label="">🏋️‍♂️</span></h2>
-          <img src="images/focus-2.gif" width="480" height="480" alt="Dwayne 'The Rock' Johnson, while working out at a gym stops mid rep. He aggressively mouths the word, 'focus!'">
+          <h2>More focus management! <span role="img" aria-label="">🐶</span></h2>
+          <img src="images/focus-2.gif" width="480" height="308" alt="A pair of adorable pug puppies running on green grass.">
           <aside class="notes">
             <p>Another important example of focus management is adjusting keybord focus when moving from page to page in React.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
         <section>
-          <h3>Why manage focus when loading a new page? <span role="img" aria-label="">🤔</span></h3>
+          <h3>The problem… <span role="img" aria-label="">🤔</span></h3>
           <p>When using React Router's <code>&lt;Link /&gt;</code> component, the browser never <em>actually</em> reloads, leaving the user's focus state in an unknown position.</p>
           <aside class="notes">
-            <p>So, why exactly do we need do this?</p>
-            <p>For one, when using React Router's Link component, new pages are inserted into React's Virtual DOM without reloading the browser. As a result, pages are precieved to load very quickly, but people who depend on assistive technology such as a screen reader may be left in an unpredictable state.</p>
+            <p>So, why exactly do we need do manage focus when loading a new page?</p>
+            <p>When using React Router's Link component, new pages are inserted into React's Virtual DOM without reloading the browser. As a result, pages are precieved to load very quickly, it's sort of React's claim to fame.</p>
+            <p>However, people who depend on assistive technology, such as a screen reader, have to search around the page to find what changed when activating the link.</p>
             <p>How do we overcome this issue?</p>
             <span role="img" aria-label="">👇</span>
           </aside>
@@ -699,7 +746,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
             <span role="img" aria-label="">👇</span>
           </aside>
         </section>
-        <section>
+        <!-- <section>
           <h3><span role="img" aria-label="">🔥</span> Newer, optional syntax</h3>
           <pre>
             <code class="language-jsx">
@@ -719,7 +766,7 @@ document.getElementsByTagName('head')[0].appendChild(link);
             <p>Now, there may be issues when using this when your editor or other tools like linters or formatters don't know about this syntax. So, it's recommended to make sure you have the latest versions of your editor and any related tooling to provide the necessary support for this.</p>
             <span role="img" aria-label="">👇</span>
           </aside>
-        </section>
+        </section> -->
       </section>
       <section>
         <section>
@@ -898,6 +945,15 @@ document.getElementsByTagName('head')[0].appendChild(link);
             </ol>
           </aside>
         </section>
+      </section>
+      <section>
+        <h2>Bonus! <span role="img" aria-label="">💥</span></h2>
+        <a href="https://twitter.com/ryanflorence/status/1002218160517300224" target="_blank">
+          <img src="images/accessible-router.png" width="550" height="569" alt="Screen capture of Twitter. A tweet from Ryan Florence (@ryanflorence) reads, 'Announcing Reach Router: An Accessible Router for React.' Opens in a new window.">
+        </a>
+        <aside class="notes">
+          <p>Just announced TODAY by Ryan Florence: Reach Router: An Accessible Router for React.</p>
+        </aside>
       </section>
       <section>
         <h2>Thanks! <span role="img" aria-label="">🙂</span></h2>
